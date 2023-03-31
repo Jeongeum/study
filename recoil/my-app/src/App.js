@@ -1,8 +1,11 @@
+import { RecoilRoot } from "recoil";
+import CharacterCounter from "./CharacterCounter";
+
 function App() {
   return (
-    <div>
-      hello world
-    </div>
+    <RecoilRoot>
+      <CharacterCounter />
+    </RecoilRoot>
   );
 }
 export default App;
