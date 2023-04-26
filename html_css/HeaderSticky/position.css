@@ -1,0 +1,31 @@
+body {
+  height: 900px;
+  background-color: #f8ecdc;
+}
+.Parents {
+  width: 450px;
+  height: 450px;
+  border: 2px solid black;
+}
+.stickyParents {
+  width: 150px;
+  height: 250px;
+  border: 2px solid red;
+}
+
+.sticky {
+  width: 100px;
+  height: 100px;
+  background-color: red;
+  position: sticky;
+  top: 50px;
+}
+
+.fixed {
+  width: 100px;
+  height: 100px;
+  background-color: pink;
+  position: fixed;
+  top: 50px;
+  left: 150px;
+}

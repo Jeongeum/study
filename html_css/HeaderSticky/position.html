@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="./position.css" />
+    <title>Document</title>
+  </head>
+  <body>
+    <!-- sticky와 fixed -->
+    <div class="Parents">
+      <div class="fixed">fixed</div>
+      fixed는 이렇게 텍스트가 있어도 상관하지 않습니다. 문서의 흐름에서 제외되기
+      때문입니다. 하지만, sticky는 문서의 흐름에 따라 배치를 하기 때문에 텍스트
+      다음에 div가 쌓이게 됩니다. sticky는 스크롤이 부모요소의 특정 지점에
+      도달하면 요소를 fixed처럼 고정시킵니다. 하지만 fixed는 뷰포트를 기준으로
+      top, left, right, bottom 로 자리를 잡습니다. 스크롤이 되어도 뷰포트
+      기준으로 요소를 위치시켰기 때문에 사라지지 않고 같은 위치에 고정됩니다.
+      <div class="stickyParents">
+        <div class="sticky">sticky</div>
+      </div>
+    </div>
+  </body>
+</html>
