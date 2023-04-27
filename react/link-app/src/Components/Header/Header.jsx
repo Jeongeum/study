@@ -14,14 +14,11 @@ export const Header = () => {
             <Link to="/about">about me</Link>
           </li>
           <li>
-            <Link to="/menu1">이력</Link>
+            <Link to="/record">이력</Link>
           </li>
           <li>
-            <Link to="/menu2">포트폴리오</Link>
+            <Link to="/articles">포트폴리오</Link>
           </li>
-          {/* <li>
-            <Link to="/list">신청자 관리</Link>
-          </li> */}
         </ul>
       </header>
     </>

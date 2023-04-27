@@ -1,9 +1,9 @@
 import React from "react";
 
-export const Menu2 = () => {
+export const Record = () => {
   return (
     <div>
-      <h2>포트폴리오</h2>
+      <h2>이력</h2>
     </div>
   );
 };

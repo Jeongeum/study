@@ -1,19 +1,22 @@
 import { Route, Routes } from "react-router-dom";
+import { Header } from "./Components/Header/Header";
 import { Home } from "./Components/Home";
 import { About } from "./Components/About";
-import { Menu1 } from "./Components/Menu1";
-import { Menu2 } from "./Components/Menu2";
-import { Header } from "./Components/Header/Header";
+import { Record } from "./Components/Record";
+import { Articles } from "./Components/Articles";
+import { Article } from "./Components/Article";
 
 function App() {
   return (
     <div>
       <Header />
       <Routes>
-        <Route path="/" Component={Home} />
-        <Route path="/about" Component={About} />
-        <Route path="/menu1" Component={Menu1} />
-        <Route path="/menu2" Component={Menu2} />
+        <Route path="/" element={<Home />} />
+        <Route path="/about" element={<About />} />
+        <Route path="/record" element={<Record />} />
+        <Route path="/articles" element={<Articles />}>
+          <Route path=":id" element={<Article />} />
+        </Route>
       </Routes>
     </div>
   );
