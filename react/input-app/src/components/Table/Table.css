@@ -1,0 +1,27 @@
+.table-container {
+  display: table;
+  width: 100%;
+  border-collapse: collapse;
+}
+
+ul {
+  display: table-row-group;
+}
+
+li {
+  display: table-row;
+}
+
+.header {
+  font-weight: bold;
+}
+
+.cell {
+  display: table-cell;
+  padding: 8px;
+  border: 1px solid black;
+}
+
+.select {
+  background-color: #fff4b9;
+}
