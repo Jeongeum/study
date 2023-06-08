@@ -1,21 +1,34 @@
-// union 타입
-// 함수가 받아들이는 요소를 보다 유연하게 바꿔보자.
-// 입력값을 유연하게 처리할 것이다.
-// 서로 다른 두 종류의 값을 사용해야 하는 애플리케이션에서 함수나 상수 혹은 변수의 매개변수를 사용해야 한다면 유니언 타입을 사용해 타입스크립트에게 숫자나 문자열 중 하나를 사용해도 괜찮다는 것을 알릴 수 있다.
+let userInput1: unknown; // any와는 다른 타입, 어떤 사용자가 무엇을 입력할지 알 수 없기 때문에 사용하는 타입. (숫자일지 문자열일지 등..)
+let userInput2: any;
+let userName: string;
 
-function combine(input1: number | string, input2: number | string) {
-  let result;
-  if (typeof input1 === "number" && typeof input2 === "number") {
-    result = input1 + input2;
-  } else {
-    result = input1.toString() + input2.toString();
-  }
+// 에러 발생 없이 어떤 값이든 저장할 수 있다. (여기까지는 any 타입이어도 가능)
+userInput1 = 5;
+userInput1 = "Max";
+// userName = userInput1; // userName을 string 타입으로 지정했다 하더라도 unknown은 문자열로 인식되지 않는다.
+userName = userInput2; // any로 타입을 바꾸면 any는 아주 유연하고 타입 확인을 수행하지 않게 하기 때문에 에러가 발생하지 않는다.
 
-  return result;
+// unknown은 좀 더 제한적인 타입. 이를 사용할 경우, unserInput1에 현재 저장된 타입을 확인해야 문자열을 원하는 변수에 할당할 수 있다. 따라서 여기서 문자열이 필요하면 추가적인 타입 검사가 필요하다.
+
+if (typeof userInput1 === "string") {
+  userName = userInput1;
 }
 
-const combinedAges = combine(30, 26);
-console.log(combinedAges);
+// unknown이 any보다 나은 이유 : 할 수 없는 작업을 알 수 있도록 타입 검사를 수행할 수 있기 때문이다.
+// 물론, userInput이 항상 문자열인지, 혹은 문자열이나 숫자인지 미리 알 수 있다면 문자열이나 유니온 타입을 쓰는게 좋다.
+let userInput3: string | number;
 
-const combinedNames = combine("Max", "Anna");
-console.log(combinedNames);
+// 이 함수는 never를 반환하며 반환 값을 생성하지 않는다.
+function generateError(message: string, code: number): never {
+  throw {
+    message: message,
+    errorCode: code,
+  };
+}
+
+generateError("에러가 발생했어요!", 500);
+
+// 로그가 출력되지 않는다. 이유는 throw가 스크립트와 충돌해서 스크립트가 취소되기 때문이다.
+//
+const result = generateError("An error occureed!", 500);
+console.log(result);

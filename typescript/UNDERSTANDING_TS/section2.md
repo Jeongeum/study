@@ -492,3 +492,405 @@ if (typeof input1 === "number" && typeof input2 === "number") {
 ```
 
 숫자라면 더해주고 숫자가 아니라면 문자열로 변환하여 연결한다. 이러면 타입스크립트와 자바스크립트에서 모두 문제가 발생하지 않는다.
+
+## 23. 리터럴 타입
+
+단순한 특정 변수나 매개변수가 아니다. 숫자나 문자열도 아니고 정확한 값을 가지는 타입이다.
+
+```ts
+const num1 = 2.6; // 타입은 2.6
+
+let num2 = 2023; // 타입은 number
+```
+
+num1의 경우 const로 선언되어 있기 때문에 더이상 값의 변화가 없다. 즉, 정확히 2.6의 값을 가지는 타입이기 때문에 `2.6 타입`이 된다.
+
+하지만, num2의 경우 let으로 선언되어 있기 때문에 값이 변할 수 있어서 `number 타입`이 된다.
+
+변수 선언 방식에 따라서 타입의 범위가 좁게 할당될 수 있다!
+
+앞서 살펴본 combine 함수는 두 개의 매개변수로 숫자를 넣었을 경우 수학적으로 두 수를 더한 값을 반환해주었고, 문자열을 넣었을 경우 두 문자를 붙여 하나의 문자열로 반환해주었었다.
+
+그런데 이번에는 매개변수를 하나 더 생성해서 마지막 매개변수에 따라 값을 다시 변환시키는 작업을 해볼 것이다.
+
+```ts
+// 로직1
+function combine(
+  input1: number | string,
+  input2: number | string,
+  resultConversion: string
+) {
+  let result;
+  if (typeof input1 === "number" && typeof input2 === "number") {
+    result = input1 + input2;
+  } else {
+    result = input1.toString() + input2.toString();
+  }
+
+  if (resultConversion === "as-number") {
+    return +result;
+  } else {
+    return result.toString();
+  }
+}
+
+const combinedAges = combine(30, 26, "as-number");
+console.log(combinedAges); // 56
+
+const combinedStringAges = combine("30", "26", "as-number");
+console.log(combinedStringAges); // 3026
+
+const combinedNames = combine("Max", "Anna", "as-text");
+console.log(combinedNames); // "MaxAnna"
+```
+
+로직1의 방법은 실제 타입을 기반으로 다시 값을 계산해서 반환하는 방법이다.
+
+combinedStringAges는 입력된 타입에 근거하여 수행되기 때문에 우선 문자열이 되고 -> 그 문자열이 숫자형으로 바뀌는 과정을 거치게 된다.
+
+```ts
+//로직 2
+function combine(
+  input1: number | string,
+  input2: number | string,
+  resultConversion: string
+) {
+  let result;
+  if (
+    (typeof input1 === "number" && typeof input2 === "number") ||
+    resultConversion === "as-number"
+  ) {
+    result = +input1 + +input2;
+  } else {
+    result = input1.toString() + input2.toString();
+  }
+  return result;
+  // if (resultConversion === "as-number") {
+  //   return +result;
+  // } else {
+  //   return result.toString();
+  // }
+}
+
+const combinedAges = combine(30, 26, "as-number");
+console.log(combinedAges); //56
+
+const combinedStringAges = combine("30", "26", "as-number");
+console.log(combinedStringAges); // 56
+
+const combinedNames = combine("Max", "Anna", "as-text");
+console.log(combinedNames); // "MaxAnna"
+```
+
+로직 2의 방법은 실제 타입을 확인한 뒤, 우리가 지정한 타입 (as-number, as-text)에 근거하여 다른 작업을 수행한다.
+
+로직 1에서는 입력된 타입에 근거하여 수행했지만, 로직 2에서는 두 값을 결합하기 전에 우리가 지정한 타입을 가지고 변환을 수행했기 때문에 combinedStringAges의 값이 달라진 것을 확인할 수 있다.
+
+우리가 지정한 타입은 개발자가 이 값들을 기억해야 한다는 것이 단점이다. 잘못 입력할 수 있기 때문에 enum을 사용하여 개선시킬 수 있다.
+
+하지만, 지금 예시처럼 두 값만 있는 경우, 유니언 타입과 리터럴 타입을 결합해서 사용할 수 있다.
+
+```ts
+function combine(
+  input1: number | string,
+  input2: number | string,
+  resultConversion: 'as-number' | 'as-text'
+) {...}
+```
+
+이렇게 작성하게 되면, resultConversion은 'as-number'와 'as-text'라는 타입으로 보장받게 되고
+![image](https://github.com/Jeongeum/test/assets/77143425/75a18972-ed78-4aa0-92e7-4d4401da00ab)
+개발자가 작성 중 잘못 입력하는 등의 실수를 했을 때 타입스크립트가 에러를 띄워주게 된다.
+
+## 24. 타입 알리어스 / 사용자 정의 타입
+
+```ts
+function combine(
+  input1: number | string,
+  input2: number | string,
+  resultConversion: 'as-number' | 'as-text'
+) {...}
+```
+
+위와 같이 유니언 타입으로 작업을 할 때, 항상 유니언 타입만 반복하는 것은 조금 번거로울 수 있다. 이럴 때에는 유니언 타입을 저장할 수 있는 유니언 타입을 만들면 되는데 타입 알리어스(별칭)이라는 타입스크립트의 기능을 이용하면 된다.
+
+```ts
+type Combinable = number | string;
+type ConversionDescriptor = "as-number" | "as-text";
+
+function combine(
+  input1: Combinable,
+  input2: Combinable,
+  resultConversion: ConversionDescriptor
+) {...}
+```
+
+위 예시와 같이 알리어스는 **대신 사용할 수 있는 재사용 가능한 타입 별칭**이다. 이를 통해 코드의 양을 줄일 수 있고 Combinable을 사용하면 항상 동일한 타입이나 동일한 유형 설정을 참조할 수 있다.
+
+## 25. 타입 알리어스 및 객체 타입
+
+또한 알리어스는 유니온 타입을 젖아하는 것만 가능한 것이 아니라 객체 타입에도 별칭을 붙일 수 있다.
+
+```ts
+type User = { name: string; age: number }; // User 라는 별칭 생성
+
+const u1: User = { name: "Max", age: 30 }; // User 별칭 사용
+```
+
+알리어스는 불필요한 반복을 줄이고 타입을 중심에서 관리할 수 있다.
+
+```ts
+// 기존 코드
+function greet(user: { name: string; age: number }) {
+  console.log("Hi, I am " + user.name);
+}
+
+function isOlder(user: { name: string; age: number }, checkAge: number) {
+  return checkAge > user.age;
+}
+
+// 단순화 한 후
+type User = { name: string; age: number };
+
+function greet(user: User) {
+  console.log("Hi, I am " + user.name);
+}
+
+function isOlder(user: User, checkAge: number) {
+  return checkAge > user.age;
+}
+```
+
+## 26. 함수 반환 타입 및 "무효"
+
+함수에서 가장 중요한 것은 return 타입이다.
+
+이 반환타입은 타입스크립트에서 추론한다.
+
+![KakaoTalk_Photo_2023-06-08-14-05-04](https://github.com/Jeongeum/test/assets/77143425/afbbcdb5-252d-4cd4-a2d7-e369c17d43af)
+추론한 타입은 사진과 같이 함수의 매개변수 목록에서 : 다음에 오는 부분에서 확인할 수 있다.
+
+이 반환타입은 타입을 명시적으로 설정할 이유가 굳이 없다면 타입스크립트가 직접 타입을 추론하도록 하는 것이 가장 좋다.
+
+반환 타입에는 void 라는 타입도 존재한다.
+
+```ts
+function add(n1: number, n2: number) {
+  return n1 + n2;
+}
+
+function printResult(num: number) {
+  console.log("Result: " + num);
+}
+
+printResult(add(5, 12));
+```
+
+위와 같은 코드를 작성했다고 했을 때, printResult 함수의 반환타입은 무엇일까?
+
+결과가 문자열이기때문에 string이라고 생각할 수도 있다.
+
+하지만 결과를 확인해보면 다음과 같다.
+![image](https://github.com/Jeongeum/test/assets/77143425/f3e3219a-7032-47e9-bc9d-3f4521f781fc)
+
+위의 코드에서 printResult는 아무것도 반환하고 있지 않다.
+
+작업도 코드도 모두 제대로 실행되고 에러도 발생하지 않았지만 결과적으로 아무것도 반환하지 않고 있다. 이럴 때 바로 void라는 특수한 반환타입을 사용한다.
+
+```ts
+console.log(printResult(add(5, 12)));
+```
+
+위와 같은 코드를 작성하고 다시 콘솔을 보면 undefined가 뜬다.
+
+아무것도 반환하지 않는 함수의 반환값을 사용하면 undefined가 값으로 출력된다.
+
+**주의**
+
+```ts
+let x: undefined;
+```
+
+이때 undefined는 자바스크립트에서 값이었지만, 타입스크립트에서는 타입이다.
+
+그래서 다음과 같이 타입으로 적을 수도 있지만, 이 코드에서는 아무것도 반환하지 않기 때문에 에러가 발생한다.
+
+```ts
+function printResult(num: number): undefined {
+  console.log("Result: " + num);
+}
+```
+
+함수가 undefined를 비롯해 아무것도 반환하지 않는다면 그때 void를 사용한다.
+
+즉, void를 사용하는 것은 해당 함수에 의도적으로 반환문이 없다는 것을 의미한다.
+
+**void 와 undefined 타입 정리**
+
+- void
+  - 값을 반환하지 않는 함수를 사용하는 경우 표준으로 사용
+  - 명시적으로 지정 가능하지만 타입스크립트가 추론 가능
+- undefined
+  - 값을 반환하지 않는 반환문이 있는 경우 사용
+  - 매우 드물게 사용하는 타입
+
+## 27. 타입의 기능을 하는 함수
+
+```ts
+let x: undefined;
+
+let combineValues;
+
+combineValues = add;
+combineValues = 5;
+
+console.log(combineValues(8, 8)); // 숫자형이 된 combineValues을 함수로 실행하려고 했기 때문에 에러 발생
+```
+
+오류를 해결하기 위해서는 combineValues가 함수를 지니게 된다고 명시하면 된다.
+
+```ts
+let x: undefined;
+
+let combineValues: Function; // 함수 타입 추가
+
+combineValues = add;
+combineValues = 5; // 함수가 아니기 때문에 에러 발생
+
+console.log(combineValues(8, 8));
+```
+
+그러면 combineValues 변수는 무엇을 저장하든 함수가 되어야 함을 명확하게 표시하게 된다.
+
+그럼 위에서 사용했던 printResult1 함수를 combineValues 변수에 넣어주면 되지 않을까?
+
+```ts
+combineValues = printResult1;
+
+console.log(combineValues(8, 8));
+```
+
+printResult1는 함수이긴 하지만 매개변수로 1개만 받고 있고 여기서는 매개변수로 2개를 보내려고 하고 있기 때문에 원하는 값을 얻을 수 없다.
+
+하지만 타입스크립트는 이에 대해서 알려주지 않는다. 타입스크립트에게는 함수를 저장한다고만 했기 때문이다.
+
+함수가 어떻게 동작해야 할지를 좀 더 명확하게 정의할 수 있어야 한다.
+
+```ts
+let combineValues: (a: number, b: number) => number;
+
+combineValues = add;
+combineValues = printResult1;
+```
+
+printResult1는 매개변수가 한개인데다가 반환타입이 void이지만 combineValues은 매개변수가 두개이고 반환타입이 number이기 때문에 에러가 발생한다.
+
+## 28. 함수 타입 및 콜백
+
+```ts
+function addAndHandle(n1: number, n2: number, cb: (num: number) => void) {
+  const result = n1 + n2;
+  cb(result);
+}
+
+addAndHandle(10, 20, (result) => {
+  console.log(result);
+});
+```
+
+cb는 아무것도 반환하지 않기 때문에 반환 타입으로 void를 작성해주고 number를 인수로 취하는 함수 타입을 정의한다.
+
+🥲 이해를 못한 부분 : 왜 addAndHandle을 실행하는 부분에 return 값을 넣으면 에러가 나지 않는가?
+
+- 인강 설명 : 콜백타입에 void를 지정함으로써 기본적으로 `cb: (num: number) => void)` 에서 반환할 수 있는 모든 결과를 무시하게 되기 때문이다. 그래서 addAndHandle에서 콜백함수가 return 타입으로 아무 작업도 수행하지 않을 것이라고 입력한 것이다. 따라서, `addAndHandle(10, 20, (result) => {
+  console.log(result);
+  return result;
+});` 라고 작성해도 아무렇지 않게 반환이 되는데 이유는 콜백이 반환되는 값으로는 아무 작업도 수행하지 않는다고 콜백 타입에 명확하게 정의되어 있기 때문이다. 따라서 함수 내의 addAndHandle은 값을 반환하는 어떤 작업도 수행하지 않는다.
+  아무것도 반환하지 않는 콜백을 전달하도록 요구하지 않으며 그저 반환할 수 있는 값이 사용되지 않도록 요구한다. 매개 변수의 경우는 그와 다르게 요구하지 않는다.
+
+퀴즈 : 강의에서 배웠듯이 콜백 함수는 자신이 전달되는 인수가 반환 값을 기대하지 않는 경우에도 값을 반환할 수 있습니다.
+
+## 29. "알 수 없는" 타입
+
+```ts
+let userInput1: unknown;
+```
+
+unknown 타입은 어떤 사용자가 무엇을 입력할지 알 수 없을 때 사용하는 타입이다. (any와는 다른 타입!)
+
+unknown 타입은 any처럼 어떤 값이든 저장할 수 있다.
+
+```ts
+// 에러 발생 없이 어떤 값이든 저장할 수 있다. (여기까지는 any 타입이어도 가능)
+userInput1 = 5;
+userInput1 = "Max";
+```
+
+하지만 다음과 같이 useName을 string 타입으로 지정한 뒤 unknown 타입인 userInput1을 넣어주어도 unknown 타입은 문자열로 인식하지 못한다.
+
+```ts
+let userInput1: unknown;
+let userName: string;
+
+userInput1 = 5;
+userInput1 = "Max";
+userName = userInput1; // error
+```
+
+하지만 이 unknown 타입을 any로 바꾸면?
+
+```ts
+let userInput1: unknown;
+let userInput2: any;
+let userName: string;
+
+userInput1 = 5;
+userInput1 = "Max";
+userName = userInput1; //error
+
+userName = userInput2; // 에러 발생 x
+```
+
+any는 아주 유연하고 타입 확인을 수행하지 않게 하기 때문에 에러가 발생하지 않는다.
+
+예시에서 간단히 본 것 처럼 unknown은 any보다 좀 더 제한적인 타입이다.
+
+```ts
+if (typeof userInput1 === "string") {
+  userName = userInput1;
+}
+```
+
+이를 사용할 경우, unserInput1에 현재 저장된 타입을 확인해야 문자열을 원하는 변수에 할당할 수 있다. 따라서 여기서 문자열이 필요하면 if 문을 만들어 확인해야 한다. (추가적인 타입 검사가 필요)
+
+정리하자면, unknown이 any보다 나은 이유는 할 수 없는 작업을 알 수 있도록 타입 검사를 수행할 수 있기 때문이다.
+물론, userInput이 항상 문자열인지, 혹은 문자열이나 숫자인지 미리 알 수 있다면 문자열이나 유니온 타입을 쓰는게 좋다.
+
+```ts
+let userInput3: string | number;
+```
+
+## 30. "절대" 타입
+
+never 타입은 함수에서 아무것도 반환하지 않는 void 타입과 달리 **함수가 반환할 수 있는 타입**이다.
+
+```ts
+// 이 함수는 never를 반환하며 반환 값을 생성하지 않는다.
+function generateError(message: string, code: number) {
+  throw {
+    message: message,
+    errorCode: code,
+  };
+}
+
+generateError("에러가 발생했어요!", 500);
+
+// 🥲 잘 모르겠는 부분 : 로그가 출력되지 않는다. 이유는 throw가 스크립트와 충돌해서 스크립트가 취소되기 때문이다.
+//
+const result = generateError("An error occureed!", 500);
+console.log(result);
+```
+
+위의 generateError 함수는 커서를 올려보았을 때, 타입이 void라고 나오는데 이는 never가 타입스크립트의 초기 버전부터 사용되지 않았기 때문에 반영이 안되는 것이다.
+
+never를 명시적으로 작성해준다면 해당 함수는 아무것도 반환하지 않고 기본적으로 스크립트나 스크립트의 일부를 충돌시키거나 망가뜨리기 위한 것임을 개발자는 알 수 있다.
