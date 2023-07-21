@@ -27,6 +27,7 @@ import { useState, useEffect } from 'react';
 function App({ id }) {
   const [data, setData] = useState(null);
 
+  // useCallback을 사용하면 컴포넌트가 리렌더링되어도 함수의 참조값을 유지시킨다.
   const fetchData = useCallback(() =>
     fetch(`https://test-api.com/data/${id}`)
       .then((response) => response.json())
