@@ -1,9 +1,11 @@
 import React from 'react';
 import { TextCard } from '../common/TextCard/TextCard';
-import { Img } from '../common/Img';
+import { Img } from '../common/Img/Img';
 import baseProfileIcon from '../../assets/images/basic-profile-img.png';
 import uploadFileeIcon from '../../assets/images/upload-file.png';
 import { ProfileImgWrapper } from '../../pages/Signup/styled';
+import { Button } from '../common/Button/Button';
+
 export const ProfileSettingForm = ({ onClickUploadHandler }) => {
   // onClickUploadHandler : input 대신 파일 업로드 이미지 클릭 시 사진 선택
   return (
@@ -35,7 +37,7 @@ export const ProfileSettingForm = ({ onClickUploadHandler }) => {
       >
         소개
       </TextCard>
-      <button type="submit">시작하기</button>
+      <Button type="submit">시작하기</Button>
     </form>
   );
 };

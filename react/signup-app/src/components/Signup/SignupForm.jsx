@@ -1,5 +1,6 @@
 import React from 'react';
 import { TextCard } from '../common/TextCard/TextCard';
+import { Button } from '../common/Button/Button';
 
 export const SignupForm = ({
   signupValue,
@@ -22,7 +23,7 @@ export const SignupForm = ({
       >
         비밀번호
       </TextCard>
-      <button type="submit">다음</button>
+      <Button type="submit">다음</Button>
     </form>
   );
 };
