@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom';
 import Wrapper from '../../components/common/Wrapper';
 import LogoIcon from '../../assets/images/symbol-logo.png';
 import { LoginWrapper, Loginbox, LogoWrapper } from './styled';
-import { Img } from '../../components/common/Img';
+import { Img } from '../../components/common/Img/Img';
 import kakaoIcon from '../../assets/images/kakao.png';
 import googleIcon from '../../assets/images/google.png';
 import facebookIcon from '../../assets/images/facebook.png';
