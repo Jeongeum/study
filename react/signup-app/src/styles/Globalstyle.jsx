@@ -13,6 +13,7 @@ body {
   font-family: "SpoqaHanSansNeo", sans-serif;
   font-weight: 400;
     font-size: 16px;
+    color: #767676;
 }
 
   a {
