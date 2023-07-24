@@ -1,11 +1,18 @@
-import { Signup } from './pages/signup/Signup';
-import GlobalStyle from './styles/Globalstyle';
+import { BrowserRouter, Route, Routes } from 'react-router-dom';
+import { SignupPage } from './pages/Signup/SignupPage';
+import { SplashPage } from './pages/Splash/SplashPage';
+import { LoginPage } from './pages/Login/LoginPage';
 
 function App() {
   return (
     <>
-      <GlobalStyle />
-      <Signup />
+      <BrowserRouter>
+        <Routes>
+          <Route path="/" element={<SplashPage />} />
+          <Route path="/signup" element={<SignupPage />} />
+          <Route path="/login" element={<LoginPage />} />
+        </Routes>
+      </BrowserRouter>
     </>
   );
 }
