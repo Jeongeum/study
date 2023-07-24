@@ -1,5 +1,45 @@
-import { styled } from 'styled-components';
+import { keyframes, styled } from 'styled-components';
 
+// 애니메이션
+const bounce = keyframes`
+  from { 
+    transform: translateY(0) scale(1);
+  }
+  to   { 
+    transform: translateY(20px) scale(1, 0.7);
+  }
+`;
+
+// 스플래시
+export const SplashWrapper = styled.div`
+  position: absolute;
+  left: 50%;
+  top: 25%;
+  transform: translateX(-50%);
+
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 17px;
+  width: 130px;
+  height: 170px;
+
+  #splashLogo {
+    width: 97px;
+    animation-name: ${bounce};
+    animation-duration: 0.5s;
+    animation-direction: alternate;
+    animation-timing-function: cubic-bezier(0.95, 0.05, 0.795, 0.035);
+    animation-iteration-count: infinite;
+  }
+
+  #splashLogoText {
+    width: 130px;
+  }
+`;
+
+// 스플래시 종료 후 로그인 화면
 export const LogoWrapper = styled.div`
   padding: 180px 123px 177px 123px;
   text-align: center;
