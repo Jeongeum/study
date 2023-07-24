@@ -7,13 +7,23 @@ export const SignupWrapper = styled.div`
     font-size: 24px;
     color: #000000;
     text-align: center;
-    margin-bottom: 40px;
+  }
+
+  p {
+    font-size: 14px;
+    text-align: center;
+    margin: 12px 0 30px;
+  }
+
+  form {
+    margin-top: 30px;
   }
 
   button {
     width: 100%;
     border-radius: 44px;
     padding: 13px;
+    margin-top: 14px;
 
     background-color: #f26e22;
     color: #ffffff;
@@ -21,5 +31,21 @@ export const SignupWrapper = styled.div`
     &:disabled {
       background-color: #ffc7a7;
     }
+  }
+`;
+
+export const ProfileImgWrapper = styled.div`
+  position: relative;
+  width: 110px;
+  margin: 0 auto;
+
+  .upload {
+    position: absolute;
+    right: 0;
+    bottom: 0;
+  }
+
+  input {
+    display: none;
   }
 `;

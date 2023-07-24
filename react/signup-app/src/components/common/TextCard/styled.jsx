@@ -19,4 +19,8 @@ export const TextInput = styled.input`
     outline: none;
     border-bottom: 1px solid #f26e22;
   }
+
+  &::placeholder {
+    color: #dbdbdb;
+  }
 `;
