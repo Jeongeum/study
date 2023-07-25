@@ -65,11 +65,6 @@ export const SignupPage = () => {
     });
   };
 
-  // useEffect(() => {
-  //   console.log(signupValue.email);
-  //   console.log('에러메시지: ', emailMessage, passwordMessage);
-  // }, [signupValue]);
-
   return (
     <Wrapper>
       <SignupWrapper>
