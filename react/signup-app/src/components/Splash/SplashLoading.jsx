@@ -1,5 +1,5 @@
 import React from 'react';
-import Wrapper from '../common/Wrapper';
+import { Wrapper } from '../common/Wrapper';
 import splashLogoIcon from '../../assets/images/color-logo.png';
 import splashLogoTextIcon from '../../assets/images/color-text-logo.png';
 import { Img } from '../common/Img/Img';

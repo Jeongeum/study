@@ -1,5 +1,5 @@
 import React from 'react';
-import Wrapper from '../../components/common/Wrapper';
+import { Wrapper } from '../../components/common/Wrapper';
 import { SignupWrapper } from './styled';
 import { ProfileSettingForm } from '../../components/Signup/ProfileSettingForm';
 

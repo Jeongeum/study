@@ -1,5 +1,5 @@
 import React from 'react';
-import Wrapper from '../../components/common/Wrapper';
+import { Wrapper } from '../../components/common/Wrapper';
 import { LoginWrapper } from './styled';
 import { LoginForm } from '../../components/Login/LoginForm';
 import { Link } from 'react-router-dom';

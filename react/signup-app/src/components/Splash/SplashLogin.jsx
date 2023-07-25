@@ -1,5 +1,5 @@
 import React from 'react';
-import Wrapper from '../common/Wrapper';
+import { Wrapper } from '../common/Wrapper';
 import { LoginWrapper, Loginbox, LogoWrapper } from './styled';
 import { Img } from '../common/Img/Img';
 import LogoIcon from '../../assets/images/symbol-logo.png';
@@ -10,7 +10,7 @@ import { Link } from 'react-router-dom';
 
 export const SplashLogin = () => {
   return (
-    <Wrapper backgroundColor="#EA7F42">
+    <Wrapper $backgroundColor="#EA7F42">
       <LogoWrapper>
         <Img src={LogoIcon} alt="로고" width="144px" />
       </LogoWrapper>
