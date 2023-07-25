@@ -1,5 +1,13 @@
 import { styled } from 'styled-components';
 
+export const SignupFormWrapper = styled.form`
+  span {
+    display: inline-block;
+    font-size: 12px;
+    color: #eb5757;
+    margin-bottom: 16px;
+  }
+`;
 export const SignupWrapper = styled.div`
   padding: 30px 34px;
 

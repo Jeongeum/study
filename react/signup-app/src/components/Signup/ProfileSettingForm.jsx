@@ -3,7 +3,10 @@ import { TextCard } from '../common/TextCard/TextCard';
 import { Img } from '../common/Img/Img';
 import baseProfileIcon from '../../assets/images/basic-profile-img.png';
 import uploadFileeIcon from '../../assets/images/upload-file.png';
-import { ProfileImgWrapper } from '../../pages/Signup/styled';
+import {
+  ProfileImgWrapper,
+  SignupFormWrapper,
+} from '../../pages/Signup/styled';
 import { Button } from '../common/Button/Button';
 
 export const ProfileSettingForm = ({
@@ -24,7 +27,7 @@ export const ProfileSettingForm = ({
     imgInput.current.click();
   };
   return (
-    <form onSubmit={onSubmitHandler}>
+    <SignupFormWrapper onSubmit={onSubmitHandler}>
       <ProfileImgWrapper>
         <Img
           src={profileImgSrc || baseProfileIcon}
@@ -79,6 +82,6 @@ export const ProfileSettingForm = ({
       <Button type="submit" disabled={!username || !accountname}>
         시작하기
       </Button>
-    </form>
+    </SignupFormWrapper>
   );
 };

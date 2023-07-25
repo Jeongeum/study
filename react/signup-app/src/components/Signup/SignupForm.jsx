@@ -1,6 +1,7 @@
 import React from 'react';
 import { TextCard } from '../common/TextCard/TextCard';
 import { Button } from '../common/Button/Button';
+import { SignupFormWrapper } from '../../pages/Signup/styled';
 
 export const SignupForm = ({
   signupValue,
@@ -11,7 +12,7 @@ export const SignupForm = ({
 }) => {
   const { email, password } = signupValue;
   return (
-    <form onSubmit={onSubmitHandler}>
+    <SignupFormWrapper onSubmit={onSubmitHandler}>
       <TextCard
         id="email"
         type="email"
@@ -37,6 +38,6 @@ export const SignupForm = ({
       <Button type="submit" disabled={!email || !password}>
         다음
       </Button>
-    </form>
+    </SignupFormWrapper>
   );
 };

@@ -4,7 +4,6 @@ export const TextCardWrapper = styled.div`
   display: flex;
   flex-direction: column;
   min-width: 322px;
-  margin-bottom: 16px;
 `;
 export const TextLabel = styled.label`
   font-size: 12px;
