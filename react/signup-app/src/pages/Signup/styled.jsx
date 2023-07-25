@@ -25,7 +25,11 @@ export const ProfileImgWrapper = styled.div`
   width: 110px;
   margin: 0 auto;
 
-  .upload {
+  #imgpreview {
+    border-radius: 50%;
+  }
+
+  #upload {
     position: absolute;
     right: 0;
     bottom: 0;
