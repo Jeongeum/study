@@ -11,3 +11,8 @@ export const accessInstance = axios.create({
   baseURL: url,
   headers: { 'Content-Type': 'application/json' },
 });
+
+export const imgInstance = axios.create({
+  baseURL: url,
+  headers: { 'Content-type': 'multipart/form-data' },
+});
