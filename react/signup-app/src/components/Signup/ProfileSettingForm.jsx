@@ -42,6 +42,7 @@ export const ProfileSettingForm = ({
         </button>
         <input
           type="file"
+          accept="image/*"
           name="image"
           ref={imgInput}
           onChange={onChangeImgHandler}
