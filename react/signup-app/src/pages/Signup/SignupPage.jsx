@@ -7,15 +7,16 @@ import { userEmailValid } from '../../api/auth';
 import { useNavigate } from 'react-router-dom';
 
 export const SignupPage = () => {
-  const [signupValue, setSignupValue] = useState({
-    email: '',
-    password: '',
-  });
   const [isValidEmail, setIsValidEmail] = useState(false);
   const [isValidPassword, setIsValidPassword] = useState(false);
   const [emailMessage, setEmailMessage] = useState('');
   const [passwordMessage, setPasswordMessage] = useState('');
   const navigate = useNavigate();
+
+  const [signupValue, setSignupValue] = useState({
+    email: '',
+    password: '',
+  });
 
   // 형식 검증 (입력할 때)
   const isValid = (target, value) => {

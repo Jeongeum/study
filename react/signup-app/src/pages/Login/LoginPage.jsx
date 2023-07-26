@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { Wrapper } from '../../components/common/Wrapper';
 import { LoginWrapper } from './styled';
 import { LoginForm } from '../../components/Login/LoginForm';
-import { Link, useLocation, useNavigate } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { userLogin } from '../../api/auth';
 
 export const LoginPage = () => {

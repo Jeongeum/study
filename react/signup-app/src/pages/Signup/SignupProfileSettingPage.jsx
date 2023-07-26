@@ -3,10 +3,7 @@ import { Wrapper } from '../../components/common/Wrapper';
 import { SignupWrapper } from './styled';
 import { ProfileSettingForm } from '../../components/Signup/ProfileSettingForm';
 import { useLocation, useNavigate } from 'react-router-dom';
-import {
-  postUserProfileImg,
-  userProfileImg,
-} from '../../api/profileSetting/postProfileImg';
+import { postUserProfileImg } from '../../api/profileSetting/postProfileImg';
 import { url } from '../../api/axiosBase';
 import { postAccountNameValid } from '../../api/profileSetting/postAccountNameValid';
 import { postUserInfo } from '../../api/profileSetting/postUserInfo';
