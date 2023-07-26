@@ -11,6 +11,17 @@ export const LoginWrapper = styled.div`
 
   form {
     margin-top: 30px;
+
+    & > div:nth-child(1) {
+      margin-bottom: 16px;
+    }
+
+    span {
+      display: inline-block;
+      font-size: 12px;
+      color: #eb5757;
+      margin-bottom: 16px;
+    }
   }
 
   a {
