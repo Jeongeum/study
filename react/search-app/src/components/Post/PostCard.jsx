@@ -1,12 +1,13 @@
 import React from 'react';
+import BasicImg from '../../assets/basic.png';
 
 export const PostCard = ({ item }) => {
-  const { Poster, Title, Year } = item;
+  const { Poster, Title } = item;
 
   return (
     <li>
-      <img src={Poster} alt={`${Title} poster`} />
-      {Title} | {Year}
+      <img src={Poster === 'N/A' ? BasicImg : Poster} alt={`${Title} poster`} />
+      <div>{Title}</div>
     </li>
   );
 };
