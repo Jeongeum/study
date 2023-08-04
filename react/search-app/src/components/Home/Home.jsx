@@ -6,6 +6,7 @@ import { HomeWrapper } from './styled';
 export const Home = ({
   onChangeHandler,
   onClickSearchHandler,
+  onKeyDownHandler,
   movieData,
   refState,
 }) => {
@@ -14,6 +15,7 @@ export const Home = ({
       <Search
         onChangeHandler={onChangeHandler}
         onClickSearchHandler={onClickSearchHandler}
+        onKeyDownHandler={onKeyDownHandler}
       />
       <PostList movieData={movieData} refState={refState} />
     </HomeWrapper>
