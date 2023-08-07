@@ -1,7 +1,7 @@
 import React from 'react';
 import BasicImg from '../../assets/basic.png';
 
-export const PostCard = ({ item }) => {
+export const PostCard = React.memo(({ item }) => {
   const { Poster, Title } = item;
   const onErrorImg = (e) => {
     e.target.src = BasicImg;
@@ -17,4 +17,4 @@ export const PostCard = ({ item }) => {
       <div>{Title}</div>
     </li>
   );
-};
+});

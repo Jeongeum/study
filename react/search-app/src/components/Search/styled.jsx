@@ -9,6 +9,7 @@ export const SearchWrapper = styled.section`
 `;
 
 export const InputWrapper = styled.div`
+  display: flex;
   width: 300px;
   margin: 30px auto;
 
@@ -30,5 +31,10 @@ export const InputWrapper = styled.div`
     height: 40px;
     background-color: #5179ef;
     border-radius: 50px;
+
+    &:disabled {
+      background-color: #acb1c6;
+      cursor: default;
+    }
   }
 `;

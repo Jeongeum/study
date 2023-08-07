@@ -9,6 +9,7 @@ export const Home = ({
   onKeyDownHandler,
   movieData,
   refState,
+  debounceKeyword,
 }) => {
   return (
     <HomeWrapper>
@@ -16,6 +17,7 @@ export const Home = ({
         onChangeHandler={onChangeHandler}
         onClickSearchHandler={onClickSearchHandler}
         onKeyDownHandler={onKeyDownHandler}
+        debounceKeyword={debounceKeyword}
       />
       <PostList movieData={movieData} refState={refState} />
     </HomeWrapper>
