@@ -4,7 +4,7 @@ export const Wrapper = styled.section`
   display: flex;
   flex-flow: wrap;
   width: 510px;
-  margin: 0 auto;
+  margin: 20px auto;
   padding: 10px;
   gap: 10px;
 
@@ -40,7 +40,7 @@ export const ContCardWrapper = styled.div`
   justify-content: center;
   width: 235px;
   height: 235px;
-  border: 1px solid ${(props) => (props.imgvalue ? 'none' : '#59bfb3')};
+  border: 1px solid ${(props) => (props.imgsrc ? 'none' : '#59bfb3')};
   border-radius: 10px;
 `;
 

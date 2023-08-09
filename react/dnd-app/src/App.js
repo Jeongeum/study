@@ -9,9 +9,20 @@ import {
 } from './components/styled';
 import { ImgBox } from './components/ImgBox';
 import { ContCard } from './components/ContCard';
+import { useRef } from 'react';
 
 function App() {
-  const [imgSrc, setImgSrc] = useState(new Array(4).fill(null));
+  const [imgName, setImgName] = useState(new Array(4).fill(null));
+  const [imgList, setImgList] = useState(
+    new Array(4).fill({
+      src: null,
+      name: '',
+    })
+  );
+
+  console.log('🤚🏻 이미지 리스트 이름만 보기: ', imgName);
+  const dragItem = useRef();
+  const dragOverItem = useRef();
 
   const onClickInputFileHandler = (index) => {
     const inputEl = document.getElementById(`input_${index}`);
@@ -23,18 +34,69 @@ function App() {
     const reader = new FileReader();
     reader.readAsDataURL(file);
 
-    const newImgSrc = [...imgSrc];
+    const newList = [...imgList];
+
+    const newImgName = [...imgName];
 
     reader.onloadend = () => {
-      newImgSrc[index] = reader.result;
-      setImgSrc(newImgSrc);
+      newList[index] = { src: reader.result, name: file.name };
+      newImgName[index] = file.name;
+
+      setImgList(newList);
+      setImgName(newImgName);
     };
   };
 
   const onClickDeleteHandler = (index) => {
-    const copyImgSrc = [...imgSrc];
-    copyImgSrc[index] = null;
-    setImgSrc(copyImgSrc);
+    const newDeleteList = [...imgList];
+
+    newDeleteList[index] = { src: null, name: '' };
+
+    setImgList(newDeleteList);
+  };
+
+  // 드래그 시작될 때
+  const dragStart = (e, position) => {
+    dragItem.current = position;
+    console.log('🖱 드래그 시작: ', e.target.alt);
+  };
+
+  // 드래그 중인 대상이 위로 포개졌을 때
+  const dragEnter = (e, position) => {
+    dragOverItem.current = position;
+    console.log(e.target.alt, '에 포개짐');
+  };
+
+  // 드래그를 끝냈을 때
+  const drop = (e) => {
+    const newImgName = [...imgName];
+    const newImgList = [...imgList];
+    console.log('복사해온 이미지 리스트 이름만 보기: ', newImgName);
+
+    const dragItemValue = newImgList[dragItem.current].name;
+    const dragOverItemValue = newImgList[dragOverItem.current].name;
+
+    console.log('⭐ 지금 드래그 중인 대상: ', dragItemValue);
+    console.log('⭐ 포개진 대상: ', dragOverItemValue);
+
+    // console.log('---내가 원한 방식---');
+    // const tmp = newImgList[dragItem.current];
+    // newImgList[dragItem.current] = newImgList[dragOverItem.current];
+    // newImgList[dragOverItem.current] = tmp;
+    [newImgList[dragItem.current], newImgList[dragOverItem.current]] = [
+      newImgList[dragOverItem.current],
+      newImgList[dragItem.current],
+    ];
+
+    console.log(
+      '현재 드래그 중인 대상과 포개진 대상을 맞교환한 리스트: ',
+      newImgList
+    );
+
+    dragItem.current = null;
+    dragOverItem.current = null;
+    setImgList(newImgList);
+    console.log('🖱 드래그 끝!');
   };
 
   return (
@@ -49,12 +111,20 @@ function App() {
         </ContHeader>
 
         <ContListContainer>
-          {imgSrc.map((image, index) => (
-            <ContCard key={index} imgvalue={image}>
-              {image ? (
+          {imgList.map((image, index) => (
+            <ContCard
+              key={index}
+              imgsrc={image.src}
+              dragStart={dragStart}
+              dragEnter={dragEnter}
+              drop={drop}
+              index={index}
+            >
+              {image.src ? (
                 <>
                   <ImgBox
-                    image={image}
+                    imgsrc={image.src}
+                    imgname={image.name}
                     onClickDeleteHandler={onClickDeleteHandler}
                     index={index}
                   />
