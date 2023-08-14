@@ -78,3 +78,12 @@ export const AddBtn = styled.button`
 export const InputFile = styled.input`
   display: none;
 `;
+
+export const OverlayCardWrapper = styled.div`
+  width: 100%;
+  height: 100%;
+  border-radius: 10px;
+  background-image: url(${(props) => props.$overlaysrc.src});
+  background-repeat: no-repeat;
+  background-size: contain;
+`;

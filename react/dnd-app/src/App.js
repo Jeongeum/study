@@ -6,22 +6,32 @@ import {
   PointerSensor,
   useSensor,
   useSensors,
+  MouseSensor,
+  DragOverlay,
 } from '@dnd-kit/core';
 import {
   arrayMove,
   rectSortingStrategy,
+  rectSwappingStrategy,
   SortableContext,
   sortableKeyboardCoordinates,
 } from '@dnd-kit/sortable';
 
-import { ContHeader, Wrapper } from './components/styled';
+import {
+  ContHeader,
+  ContListContainer,
+  OverlayCardWrapper,
+  Wrapper,
+} from './components/styled';
 import { ImgBox } from './components/ImgBox';
 import { AddBox } from './components/AddBox';
 
 function App() {
+  const [activeId, setActiveId] = useState(null);
   const [imgName, setImgName] = useState(new Array(4).fill(null));
   const [imgList, setImgList] = useState(
     new Array(4).fill({
+      id: 1,
       src: null,
       name: '',
     })
@@ -41,7 +51,7 @@ function App() {
     reader.readAsDataURL(file);
 
     reader.onloadend = () => {
-      newList[index] = { src: reader.result, name: file.name };
+      newList[index] = { id: index + 1, src: reader.result, name: file.name };
       newImgName[index] = file.name;
 
       setImgList(newList);
@@ -59,36 +69,38 @@ function App() {
   // -------------------------------------
 
   const sensors = useSensors(
-    useSensor(PointerSensor),
+    useSensor(MouseSensor),
     useSensor(KeyboardSensor, {
       coordinateGetter: sortableKeyboardCoordinates,
     })
   );
 
+  const handleDragStart = (e) => {
+    console.log(e);
+    setActiveId(() => e.active.id);
+  };
+
+  console.log(activeId);
+
   const handleDragEnd = (event) => {
+    setActiveId(() => null);
     const { active, over } = event;
     console.log('active: ', active);
     console.log('over: ', over);
 
     if (active.id !== over.id) {
-      console.log(active.id, over.id);
       setImgList((imgList) => {
-        const oldIndex = imgList.indexOf(active.id); // imgList 배열에 active.id와 같은게 있으면 그 배열의 인덱스 반환, 없으면 -1 반환
-        const newIndex = imgList.indexOf(over.id);
-        console.log(oldIndex, newIndex);
+        const oldIndex = imgList.findIndex(
+          (item, index) => item.id === active.id
+        );
+        const newIndex = imgList.findIndex(
+          (item, index) => item.id === over.id
+        );
+
         return arrayMove(imgList, oldIndex, newIndex);
       });
-      setImgName((imgName) => {
-        const oldIndex = imgName.indexOf(active.id) + 1;
-        const newIndex = imgName.indexOf(over.id) + 1;
-
-        return arrayMove(imgName, oldIndex, newIndex);
-      });
     }
-    console.log(imgName);
-    console.log(imgList);
   };
-
   // -------------------------------------
   // 드래그를 끝냈을 때
   // const drop = (info) => {
@@ -130,9 +142,15 @@ function App() {
         <DndContext
           sensors={sensors}
           collisionDetection={closestCenter}
+          onDragStart={handleDragStart}
           onDragEnd={handleDragEnd}
         >
-          <SortableContext items={imgList} strategy={rectSortingStrategy}>
+          {/* <ContListContainer> */}
+          <SortableContext
+            items={imgList}
+            // items={imgList.map((item, index) => item.id)}
+            strategy={rectSortingStrategy}
+          >
             {imgList.map((image, index) =>
               image.src ? (
                 <ImgBox
@@ -141,6 +159,7 @@ function App() {
                   imgname={image.name}
                   onClickDeleteHandler={onClickDeleteHandler}
                   index={index}
+                  image={image}
                 />
               ) : (
                 <AddBox
@@ -151,7 +170,15 @@ function App() {
                 />
               )
             )}
+            <DragOverlay>
+              {activeId ? (
+                <OverlayCardWrapper
+                  $overlaysrc={imgList.find((item) => item.id === activeId)}
+                ></OverlayCardWrapper>
+              ) : null}
+            </DragOverlay>
           </SortableContext>
+          {/* </ContListContainer> */}
         </DndContext>
 
         {/* ----------------- */}
