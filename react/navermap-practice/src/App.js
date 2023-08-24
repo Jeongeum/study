@@ -1,9 +1,10 @@
-import { 마커표시예제 } from './components/마커표시예제';
+import { Test } from './components/Test';
+import { 행정구역데이터레이어예제 } from './components/행정구역데이터레이어예제';
 
 function App() {
   return (
     <>
-      <마커표시예제 />
+      <Test />
     </>
   );
 }
