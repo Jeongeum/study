@@ -1,5 +1,5 @@
+import { React, useEffect, useRef, useState } from 'react';
 import { QRCodeCanvas } from 'qrcode.react';
-import { React, useState } from 'react';
 import {
   Container as MapDiv,
   Marker,
@@ -12,10 +12,40 @@ import { Modal } from './Modal/Modal';
 export const Map = () => {
   const navermaps = useNavermaps();
   const [isOpen, setIsOpen] = useState(false);
-  const onClickHandler = () => {
-    console.log('Click');
-    setIsOpen((isOpen) => !isOpen);
+  const videoRef = useRef(null);
+
+  const openModal = () => {
+    setIsOpen(true);
   };
+
+  const closeModal = () => {
+    setIsOpen(false);
+  };
+
+  const getUserCamera = () => {
+    navigator.mediaDevices
+      .getUserMedia({
+        video: { facingMode: 'environment' },
+      })
+      .then((stream) => {
+        let video = videoRef.current;
+
+        video.srcObject = stream;
+        video.play();
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  };
+
+  useEffect(() => {
+    if (isOpen) {
+      getUserCamera();
+    }
+  }, [isOpen]);
+
+  const mapCenter = new navermaps.LatLng(37.5173, 127.0474);
+
   return (
     <div>
       <MapDiv
@@ -24,22 +54,18 @@ export const Map = () => {
           height: '600px',
         }}
       >
-        <NaverMap
-          defaultCenter={new navermaps.LatLng(37.5173, 127.0474)}
-          defaultZoom={17}
-        >
-          <Marker
-            position={navermaps.LatLng(37.5173, 127.0474)}
-            onClick={onClickHandler}
-          />
+        <NaverMap defaultCenter={mapCenter} defaultZoom={17}>
+          <Marker position={mapCenter} onClick={openModal} />
         </NaverMap>
       </MapDiv>
       {isOpen && (
         <ModalBg>
           <Modal>
-            <h3>인증하기</h3>
-            <button onClick={onClickHandler}>X</button>
-            <QRCodeCanvas value="하이" />
+            <button onClick={closeModal}>X</button>
+            <div className="qrwrapper">
+              <h3>QR 코드를 스캔해주세요.</h3>
+              <video autoPlay ref={videoRef} />
+            </div>
           </Modal>
         </ModalBg>
       )}

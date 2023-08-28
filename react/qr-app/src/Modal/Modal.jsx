@@ -1,6 +1,8 @@
 import { styled } from 'styled-components';
 
 export const Modal = styled.div`
+  display: flex;
+  flex-direction: column;
   width: 430px;
   height: 530px;
   z-index: 100;
@@ -18,17 +20,28 @@ export const Modal = styled.div`
     font-weight: 600;
   }
 
-  .modalheader {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-bottom: 10px;
+  button {
+    position: absolute;
+    top: 20px;
+    right: 20px;
+    background-color: transparent;
+    border: none;
+    font-weight: 600;
+    cursor: pointer;
+  }
 
-    button {
-      background-color: transparent;
-      border: none;
-      font-weight: 600;
-      cursor: pointer;
+  .qrwrapper {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    width: 230px;
+    height: 260px;
+    margin: 50px auto;
+
+    video {
+      width: 100%;
+      border-radius: 20px;
     }
   }
 `;
