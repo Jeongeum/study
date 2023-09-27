@@ -1,0 +1,23 @@
+a::after {
+  content: '';
+  display: block;
+  width: 24px;
+  height: 24px;
+  background-image: url('./assets/css_sprites.png');
+}
+
+.naver::after {
+  background-position: -54px -54px;
+}
+
+.fb::after {
+  background-position: -10px -10px;
+}
+
+.google::after {
+  background-position: -54px -10px;
+}
+
+.kakao::after {
+  background-position: -10px -54px;
+}
